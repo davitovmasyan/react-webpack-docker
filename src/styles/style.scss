@@ -1,0 +1,11 @@
+@import 'variables';
+
+div {
+    width: 100%;
+    text-align: center;
+    height: 500px;
+    color: $colorBlue;
+    background-image: url("/images/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}

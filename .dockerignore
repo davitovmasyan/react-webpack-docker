@@ -1,0 +1,7 @@
+**/*.orig
+**/*.log
+**/.DS_Store
+**/.sass-cache
+**/.git
+**/_build
+*.db

@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  project:
+    build: .
+    image: project:latest
+    command: npm start
+    volumes:
+      - .:/project
+    ports:
+      - "8080:8080"
