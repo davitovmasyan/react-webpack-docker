@@ -1,7 +1,7 @@
 const path = require('path')
 const merge = require('webpack-merge')
 const glob = require('glob')
-require('dotenv').config(path.resolve('./.env'))
+const dotenv = require('dotenv').config(path.resolve('../.env')).parsed
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
@@ -33,7 +33,7 @@ const commonConfig = merge([
         resolve: {
             extensions: ['.js'],
         },
-        mode: process.env.NODE_ENV,
+        mode: dotenv.NODE_ENV,
         plugins: [
             new HtmlWebpackPlugin({
                 template: paths.template,
@@ -68,7 +68,7 @@ const commonConfig = merge([
 
 const developmentConfig = merge([
     base.sourceMaps('cheap-module-source-map'),
-    base.devServer({host: process.env.HOST, port: process.env.PORT, hot: !!process.env.HOT})
+    base.devServer({host: dotenv.HOST, port: dotenv.PORT}, !!parseInt(dotenv.HOT_RELOAD))
 ])
 
 const productionConfig = merge([
@@ -82,11 +82,9 @@ const productionConfig = merge([
     }),
 
     loaders.scopeHoisting(),
-    // loaders.attachRevision(),
+    loaders.attachRevision(),
 ])
 
 module.exports = () => {
-    const config = merge(commonConfig, process.env.NODE_ENV === 'production' ? productionConfig : developmentConfig);
-
-    return config;
+    return merge(commonConfig, dotenv.NODE_ENV === 'production' ? productionConfig : developmentConfig)
 }

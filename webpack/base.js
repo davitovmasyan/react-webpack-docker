@@ -2,12 +2,12 @@ const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin')
 
-exports.devServer = ({host, port, hot} = {}) => ({
+exports.devServer = ({host, port}, hotReload) => ({
     devServer: {
         stats: 'errors-only',
         host,
         port,
-        hot,
+        hot: hotReload,
         historyApiFallback: true,
         overlay: {
             errors: true,
@@ -15,7 +15,10 @@ exports.devServer = ({host, port, hot} = {}) => ({
         },
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
+        ... hotReload ? [new webpack.HotModuleReplacementPlugin()] : [],
+        new webpack.DefinePlugin({
+            'process.env.HOT_RELOAD': hotReload
+        }),
     ]
 })
 

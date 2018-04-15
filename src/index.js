@@ -11,6 +11,6 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+if (!!process.env.HOT_RELOAD) {
   module.hot.accept()
 }
